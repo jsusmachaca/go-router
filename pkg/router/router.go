@@ -64,3 +64,33 @@ func (router *Router) Delete(path string, middleware func(next http.Handler) htt
 	}
 	router.ServeMux.Handle(pattern, middleware(handler))
 }
+
+func (router *Router) Options(path string, middleware func(next http.Handler) http.Handler, handler http.Handler) {
+	pattern := fmt.Sprintf("OPTIONS %s", path)
+
+	if middleware == nil {
+		router.ServeMux.Handle(pattern, handler)
+		return
+	}
+	router.ServeMux.Handle(pattern, middleware(handler))
+}
+
+func (router *Router) Connect(path string, middleware func(next http.Handler) http.Handler, handler http.Handler) {
+	pattern := fmt.Sprintf("CONNECT %s", path)
+
+	if middleware == nil {
+		router.ServeMux.Handle(pattern, handler)
+		return
+	}
+	router.ServeMux.Handle(pattern, middleware(handler))
+}
+
+func (router *Router) Trace(path string, middleware func(next http.Handler) http.Handler, handler http.Handler) {
+	pattern := fmt.Sprintf("TRACE %s", path)
+
+	if middleware == nil {
+		router.ServeMux.Handle(pattern, handler)
+		return
+	}
+	router.ServeMux.Handle(pattern, middleware(handler))
+}
